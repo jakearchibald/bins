@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+<style id="jsbin-css">
+* {
+  font-family: sans-serif;
+}
+</style>
+</head>
+<body>
+
+<!--boot js--><script id="jsbin-javascript" defer>const modules = {
+  'a.js': { dependsOn: ['b.js', 'c.js'] },
+  'b.js': { dependsOn: [] },
+  'c.js': { dependsOn: ['d.js'] },
+  'd.js': { dependsOn: ['a.js'] },
+  'e.js': { dependsOn: ['f.js'] },
+  'f.js': { dependsOn: [] },
+};
+
+function getDependencies(modules, entryFile) {
+  const fileNames = new Set([entryFile]);
+
+  for (const fileName of fileNames) {
+    for (const dependency of modules[fileName].dependsOn) {
+      fileNames.add(dependency);
+    }
+  }
+
+  fileNames.delete(entryFile);
+  return [...fileNames];
+}
+
+console.log(getDependencies(modules, 'a.js'));
+</script>
+</body>
+</html>
